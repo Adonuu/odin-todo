@@ -26,4 +26,18 @@ export class project {
         });
         return returnValue;
     }
+
+    moveNoteFromGroup(note, newGroupTitle, oldGroupTitle) {
+        // remove note from old group
+        this.getGroupList(oldGroupTitle).todoList.forEach((val, index) => {
+            if (val.title === note.title)
+                this.todoList.splice(index, 1);
+        });
+        // add note to new group
+        this.getGroupList(newGroupTitle).todoList.push(note);
+    }
+
+    addNoteToGroup(note, groupTitle) {
+        this.getGroupList(groupTitle).todoList.addNote(note);
+    }
 }
