@@ -1,0 +1,21 @@
+#navBar {
+    grid-area: navBar;
+    background-color: red;
+}
+
+#content {
+    grid-area: content;
+    background-color: green;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "navBar content";
+    grid-template-columns: 1fr 5fr;
+}
