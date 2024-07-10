@@ -19,4 +19,12 @@ export class project {
     addToDo(todo) {
         this.todoList.push(todo);
     }
+
+    removeToDo(todo) {
+        this.todoList.forEach((val, i) => {
+            if (val.getTitle() === todo.getTitle()) {
+                this.todoList.splice(i, 1);
+            }
+        });
+    }
 }
