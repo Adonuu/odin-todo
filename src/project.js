@@ -1,43 +1,22 @@
-import { list } from "./todoList";
-
 export class project {
     constructor(title) {
         this.title = title;
-        this.groups = [{title: 'default', list: new list()}];
+        this.todoList = [];
     }
 
-    addGroup(title) {
-        this.groups.push({title: title, list: new list()});
+    getTitle() {
+        return this.title;
     }
 
-    removeGroup(title) {
-        this.groups.forEach((val, index) => {
-            if(val.title === title)
-                this.groups.splice(index, 1);
-        });
+    setTitle(title) {
+        this.title = title;
     }
 
-    getGroupList(groupTitle) {
-        let returnValue;
-        this.groups.forEach((val, index) => {
-            if (val.title === groupTitle){
-                returnValue = val.list;
-            } 
-        });
-        return returnValue;
+    getTodoList() {
+        return this.todoList();
     }
 
-    moveNoteFromGroup(note, newGroupTitle, oldGroupTitle) {
-        // remove note from old group
-        this.getGroupList(oldGroupTitle).todoList.forEach((val, index) => {
-            if (val.title === note.title)
-                this.todoList.splice(index, 1);
-        });
-        // add note to new group
-        this.getGroupList(newGroupTitle).todoList.push(note);
-    }
-
-    addNoteToGroup(note, groupTitle) {
-        this.getGroupList(groupTitle).todoList.addNote(note);
+    addToDo(todo) {
+        this.todoList.push(todo);
     }
 }
