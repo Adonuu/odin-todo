@@ -13,7 +13,7 @@ export class project {
     }
 
     getTodoList() {
-        return this.todoList();
+        return this.todoList;
     }
 
     addToDo(todo) {

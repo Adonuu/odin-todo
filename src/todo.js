@@ -42,4 +42,8 @@ export class todo {
     completeTodo() {
         this.complete = true;
     }
+
+    getComplete() {
+        return this.complete;
+    }
 }
