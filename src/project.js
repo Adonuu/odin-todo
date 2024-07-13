@@ -27,4 +27,19 @@ export class project {
             }
         });
     }
+
+    getToDo(todoTitle) {
+        let returnValue;
+        this.todoList.forEach((val) => {
+            if (val.getTitle() === todoTitle) {
+                returnValue =  val;
+            }
+        });
+        return returnValue;
+    }
+
+    saveToDo(todo) {
+        this.removeToDo(todo);
+        this.addToDo(todo);
+    }
 }
