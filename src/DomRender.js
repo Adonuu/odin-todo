@@ -5,6 +5,7 @@ const projectDisplay = document.querySelector('#projectTodos');
 const projectListDisplay = document.querySelector('#projectList');
 
 export function renderProject(project) {
+    projectDisplay.innerHTML= '';
     project.getTodoList().forEach((val) => {
         projectDisplay.appendChild(renderToDo(val, project));;
     });
@@ -109,6 +110,7 @@ export function renderProjectList(projects) {
         div.addEventListener('click', (event) => {
             projectDisplay.innerHTML = '';
             renderProject(getProject(event.target.innerHTML));
+            document.querySelector('#projectSection').setAttribute('currentProject', getProject(event.target.innerHTML).getTitle());
         });
     })
 }

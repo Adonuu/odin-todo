@@ -5,12 +5,18 @@ import "./index.css";
 
 // variable used for storing all the projects
 let projects = [];
+let currentSelectedProject = '';
 
 // html elements
 const createProjectButton = document.querySelector('#createProjectButton');
 const createProjectDialog = document.querySelector('#createProjectDialog');
 const closeCreateProjectDialog = document.querySelector('#closeCreateProjectDialog');
 const createProjectForm = document.querySelector('#createProjectForm');
+const createTodoButton = document.querySelector('#createTodo');
+const createTodoDialog = document.querySelector('#createTodoDialog');
+const closeCreateTodoDialog = document.querySelector('#closeCreateTodoDialog');
+const createTodoForm = document.querySelector('#createTodoForm');
+const projectSection = document.querySelector('#projectSection');
 
 // add functions for storing projects in local storage and recalling it on startup if needed
 
@@ -44,6 +50,33 @@ createProjectForm.addEventListener('submit', (e) => {
     renderProjectList(projects);
 });
 
+// show create todo dialog when createTodoButton is pressed
+createTodoButton.addEventListener('click', () => {
+    createTodoDialog.showModal();
+});
+
+// close create todo dialog when the closeToDoDialog is pressed
+closeCreateTodoDialog.addEventListener('click', () => {
+    createTodoDialog.close();
+});
+
+// when create todo form is submitted add todo to the project
+createTodoForm.addEventListener('submit', (e) => {
+    // get current project
+    let currentProject = getProject(projectSection.getAttribute('currentProject'));
+    console.log(currentProject);
+    // get information from form
+    let todoTitle = e.target.querySelector('#todoTitleInput').value;
+    let todoPriority = e.target.querySelector('#todoPriorityInput').value;
+    let todoDueDate = e.target.querySelector('#todoDueDateInput').value;
+    let todoDescription = e.target.querySelector('#todoDescriptionInput').value;
+    // create new todo
+    let todoToAdd = new todo(todoTitle, todoDescription, todoDueDate, todoPriority);
+    // add todo to project
+    currentProject.addToDo(todoToAdd);
+    // re-render project display
+    renderProject(currentProject);
+});
 
 // function used to return the right project to DomRender.js when rendering the content on click of each project in the project list
 export function getProject(projectTitle) {
