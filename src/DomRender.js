@@ -100,6 +100,7 @@ function editButtonOnClick(event, project) {
 }
 
 export function renderProjectList(projects) {
+    projectListDisplay.innerHTML = '';
     projects.forEach((val) => {
         let div = document.createElement('div');
         div.innerHTML = val.getTitle();

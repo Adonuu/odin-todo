@@ -13,16 +13,25 @@
         <div id="projectSection">
           <h2 id="project">Projects</h2>
           <div id="projectList"></div>
-          <button id="createProject">Create Project</button>
+          <button id="createProjectButton">Create Project</button>
         </div>
         <div id="todoSection">
-          <h2 id="project">To Dos</h2>
-          <div id="projectList"></div>
-          <button id="createProject">Create To Do</button>
+          <h2 id="todo">To Dos</h2>
+          <div id="todoList"></div>
+          <button id="createTodo">Create To Do</button>
         </div>
       </div>
       <div id="content">
         <div id="projectTodos"></div>
       </div>
+      <dialog id="createProjectDialog">
+        <form method="dialog" id="createProjectForm">
+          <h2>Create Project</h2>
+          <label for="title">Title :</label>
+          <input type="text" name="title" id="projectTitleInput">
+          <button id="closeCreateProjectDialog">Close</button>
+          <input type="submit">
+        </form>
+      </dialog>
   </body>
 </html>
