@@ -3,9 +3,20 @@ import { todo } from "./todo";
 import { renderProject, renderProjectList } from "./DomRender";
 import "./index.css";
 
-// variable used for storing all the projects
-let projects = [];
-let currentSelectedProject = '';
+// grab projects form local storage if it is there
+let projects = JSON.parse(localStorage.getItem('obsinotionProjectStorage'));
+// if there is nothing in the local storage make an empty array
+if (projects === null) {
+    projects = [];
+}
+// loop through and set each projects prototype to a project type
+projects.forEach((val) => {
+    val.__proto__ = new project();
+    val.getTodoList().forEach((note) => {
+        note.__proto__ = new todo();
+    });
+});
+renderProjectList(projects);
 
 // html elements
 const createProjectButton = document.querySelector('#createProjectButton');
@@ -17,19 +28,6 @@ const createTodoDialog = document.querySelector('#createTodoDialog');
 const closeCreateTodoDialog = document.querySelector('#closeCreateTodoDialog');
 const createTodoForm = document.querySelector('#createTodoForm');
 const projectSection = document.querySelector('#projectSection');
-
-// add functions for storing projects in local storage and recalling it on startup if needed
-
-let testProject = new project('test');
-let testNote = new todo('Test Note', 'This is a test note', '5/9/24', 1);
-
-projects.push(testProject);
-
-renderProjectList(projects);
-
-testProject.addToDo(testNote);
-
-renderProject(testProject);
 
 
 // show create project dialog when createProjectButton is pressed
@@ -48,6 +46,8 @@ createProjectForm.addEventListener('submit', (e) => {
     let projectToAdd = new project(projectTitle);
     addProjectToProjects(projectToAdd);
     renderProjectList(projects);
+    console.log(projects);
+    localStorage.setItem('obsinotionProjectStorage', JSON.stringify(projects));
 });
 
 // show create todo dialog when createTodoButton is pressed
@@ -64,7 +64,6 @@ closeCreateTodoDialog.addEventListener('click', () => {
 createTodoForm.addEventListener('submit', (e) => {
     // get current project
     let currentProject = getProject(projectSection.getAttribute('currentProject'));
-    console.log(currentProject);
     // get information from form
     let todoTitle = e.target.querySelector('#todoTitleInput').value;
     let todoPriority = e.target.querySelector('#todoPriorityInput').value;
@@ -76,6 +75,8 @@ createTodoForm.addEventListener('submit', (e) => {
     currentProject.addToDo(todoToAdd);
     // re-render project display
     renderProject(currentProject);
+    // re-write data to local storage
+    localStorage.setItem('obsinotionProjectStorage', JSON.stringify(projects));
 });
 
 // function used to return the right project to DomRender.js when rendering the content on click of each project in the project list
