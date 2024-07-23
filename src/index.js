@@ -1,21 +1,13 @@
 import { project } from "./project";
 import { todo } from "./todo";
 import { renderProject, renderProjectList } from "./DomRender";
+import { readStorage, saveStorage } from "./storage";
 import "./index.css";
 
-// grab projects form local storage if it is there
-let projects = JSON.parse(localStorage.getItem('obsinotionProjectStorage'));
-// if there is nothing in the local storage make an empty array
-if (projects === null) {
-    projects = [];
-}
-// loop through and set each projects prototype to a project type
-projects.forEach((val) => {
-    val.__proto__ = new project();
-    val.getTodoList().forEach((note) => {
-        note.__proto__ = new todo();
-    });
-});
+// read data from local storage
+let projects = readStorage();
+
+// render project list on startup
 renderProjectList(projects);
 
 // html elements
@@ -46,8 +38,7 @@ createProjectForm.addEventListener('submit', (e) => {
     let projectToAdd = new project(projectTitle);
     addProjectToProjects(projectToAdd);
     renderProjectList(projects);
-    console.log(projects);
-    localStorage.setItem('obsinotionProjectStorage', JSON.stringify(projects));
+    saveStorage(projects);
 });
 
 // show create todo dialog when createTodoButton is pressed
@@ -76,7 +67,7 @@ createTodoForm.addEventListener('submit', (e) => {
     // re-render project display
     renderProject(currentProject);
     // re-write data to local storage
-    localStorage.setItem('obsinotionProjectStorage', JSON.stringify(projects));
+   saveStorage(projects);
 });
 
 // function used to return the right project to DomRender.js when rendering the content on click of each project in the project list
