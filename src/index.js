@@ -28,7 +28,7 @@ createProjectButton.addEventListener('click', () => {
 });
 
 // close create project dialog when closeCreateProjectDialog is pressed
-closeCreateProjectDialog.addEventListener('click', () => {
+closeCreateProjectDialog.addEventListener('click', (e) => {
     createProjectDialog.close();
 });
 
@@ -55,6 +55,7 @@ closeCreateTodoDialog.addEventListener('click', () => {
 createTodoForm.addEventListener('submit', (e) => {
     // get current project
     let currentProject = getProject(projectSection.getAttribute('currentProject'));
+    console.log(currentProject);
     // get information from form
     let todoTitle = e.target.querySelector('#todoTitleInput').value;
     let todoPriority = e.target.querySelector('#todoPriorityInput').value;

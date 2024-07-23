@@ -1,3 +1,6 @@
+import { project } from "./project";
+import { todo } from "./todo";
+
 export function readStorage() {
     // grab projects form local storage if it is there
     let projects = JSON.parse(localStorage.getItem('obsinotionProjectStorage'));

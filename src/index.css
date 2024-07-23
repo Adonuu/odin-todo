@@ -1,13 +1,30 @@
 #navBar {
     grid-area: navBar;
-    background-color: red;
+    background-color: darkolivegreen;
+    color: white;
 }
 
 #content {
     grid-area: content;
-    background-color: green;
     width: 100%;
     height: 100%;
+}
+
+#header {
+    padding: 10px 10px;
+    grid-area: header;
+    background-color: darkslategray;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    color: white;
+}
+
+#createTodo {
+    border-radius: 10px;
+    border-style: none;
+    width: 150px;
 }
 
 body {
@@ -15,7 +32,47 @@ body {
     margin: 0;
     display: grid;
     height: 100vh;
-    grid-template-areas: 
+    grid-template-areas:
+        "navBar header" 
         "navBar content";
     grid-template-columns: 1fr 5fr;
+    grid-template-rows: 1fr 10fr;
+}
+
+#navBar {
+    padding: 10px;
+}
+
+#project {
+    border-bottom: 1px solid white;
+}
+
+#projectSection {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
+
+.projectListItem {
+    height: 1.5rem;
+    font-size: 1.25rem;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+
+.projectListItem:hover {
+    background-color: darkslategray;
+}
+
+#createProjectButton {
+    border-radius: 10px;
+    border-style: none;
+}
+
+h2 {
+    margin: 0;
+}
+
+#projectTodos {
+    padding: 10px;
 }
