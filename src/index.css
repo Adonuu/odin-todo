@@ -22,8 +22,6 @@
 }
 
 #createTodo {
-    border-radius: 10px;
-    border-style: none;
     width: 150px;
 }
 
@@ -64,7 +62,7 @@ body {
     background-color: darkslategray;
 }
 
-#createProjectButton {
+button {
     border-radius: 10px;
     border-style: none;
 }
@@ -75,4 +73,26 @@ h2 {
 
 #projectTodos {
     padding: 10px;
+}
+
+.todo {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: darkgreen;
+    width: 12rem;
+    height: 12rem;
+    padding: 10px;
+    color: white;
+}
+
+.todoDetail {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+    height: 90%;
+}
+
+.todoTitle {
+    text-align: center;
+    font-size: 1.25rem;
 }

@@ -47,7 +47,7 @@ function createToDoDetails(todo, project) {
 function displayToDoDetails(todoDiv, detailDiv) {
     todoDiv.firstChild.addEventListener('click', () => {
         if (detailDiv.style.display === 'none') {
-            detailDiv.style.display = 'block';
+            detailDiv.style.display = 'flex';
         } else {
             detailDiv.style.display = 'none';
         }
