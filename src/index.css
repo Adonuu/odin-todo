@@ -78,9 +78,9 @@ h2 {
 .todo {
     display: flex;
     flex-flow: column nowrap;
-    background-color: darkgreen;
+    background-color: darkred;
     width: 12rem;
-    height: 12rem;
+    height: 15rem;
     padding: 10px;
     color: white;
 }
@@ -95,4 +95,8 @@ h2 {
 .todoTitle {
     text-align: center;
     font-size: 1.25rem;
+}
+
+.complete {
+    background-color: darkgreen;
 }

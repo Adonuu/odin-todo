@@ -3,6 +3,7 @@ import { todo } from "./todo";
 import { renderProject, renderProjectList } from "./DomRender";
 import { readStorage, saveStorage } from "./storage";
 import "./index.css";
+import eventEmmiter from "./eventEmitter.js";
 
 // read data from local storage
 let projects = readStorage();
@@ -97,3 +98,8 @@ function addProjectToProjects(project) {
         projects.push(project);
     }
 }
+
+// listen to event from DomRender
+eventEmmiter.addEventListener('saveProject', (event) => {
+    saveStorage(projects);
+});

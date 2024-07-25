@@ -39,8 +39,8 @@ export class todo {
         this.priority = priority;
     }
 
-    completeTodo() {
-        this.complete = true;
+    setComplete(value) {
+        this.complete = value;
     }
 
     getComplete() {

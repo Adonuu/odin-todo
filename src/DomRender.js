@@ -1,5 +1,7 @@
 import { todo } from "./todo";
 import { getProject } from ".";
+import { project } from "./project";
+import eventEmmiter from "./eventEmitter.js";
 
 const projectDisplay = document.querySelector('#projectTodos');
 const projectListDisplay = document.querySelector('#projectList');
@@ -21,6 +23,9 @@ function renderToDo(todo, project) {
     let details = createToDoDetails(todo, project);
     baseDiv.appendChild(details);
     baseDiv = displayToDoDetails(baseDiv, details);
+    if (todo.getComplete() === true) {
+        baseDiv.classList.add('complete');
+    }
     return baseDiv;
 }
 
@@ -28,15 +33,14 @@ function createToDoDetails(todo, project) {
     let detailDiv = document.createElement('div');
     detailDiv.style.display = 'none';
     detailDiv.classList.add('todoDetail');
-    if (todo.getComplete()) {
-        detailDiv.classList.add('complete');
-    }
     let priorityDiv = createToDoPropertyDisplay('Priority', todo.getPriority(), todo.getTitle().replace(/\s/g, ''));
     detailDiv.appendChild(priorityDiv);
     let dateDiv = createToDoPropertyDisplay('Due Date', todo.getDueDate(), todo.getTitle().replace(/\s/g, ''));
     detailDiv.appendChild(dateDiv);
     let descriptionDiv = createToDoPropertyDisplay('Description', todo.getDescription(), todo.getTitle().replace(/\s/g, ''));
     detailDiv.appendChild(descriptionDiv);
+    let completeDiv = createToDoPropertyDisplay('Complete', todo.getComplete(), todo.getTitle().replace(/\s/g, ''), true);
+    detailDiv.appendChild(completeDiv);
     let editButton = document.createElement('button');
     editButton.innerHTML = 'Edit';
     editButton.addEventListener('click', (event) => editButtonOnClick(event.target, project));
@@ -55,14 +59,20 @@ function displayToDoDetails(todoDiv, detailDiv) {
     return todoDiv;
 }
 
-function createToDoPropertyDisplay(property, value, name) {
+function createToDoPropertyDisplay(property, value, name, typeCheckbox) {
     let baseDiv = document.createElement('div');
     baseDiv.id = name + property.replace(/\s/g, '');
     baseDiv.classList.add('propertyDisplay');
     let descriptionDiv = document.createElement('div');
     descriptionDiv.innerHTML = property + ':';
     let valueDiv = document.createElement('input');
-    valueDiv.value = value;
+    if (typeCheckbox)
+    {
+        valueDiv.type = "checkbox";
+        valueDiv.checked = value;
+    } else {
+        valueDiv.value = value;
+    }
     valueDiv.disabled = true;
     baseDiv.appendChild(descriptionDiv);
     baseDiv.appendChild(valueDiv);
@@ -88,14 +98,25 @@ function editButtonOnClick(event, project) {
         let priority = document.querySelector('#' + todoNameNoSpaces + 'Priority');
         let dueDate = document.querySelector('#' + todoNameNoSpaces + 'DueDate');
         let description = document.querySelector('#' + todoNameNoSpaces + 'Description');
+        let complete = document.querySelector('#' + todoNameNoSpaces + 'Complete');
         // grab todo note
         let todo = project.getToDo(todoName);
         // modify todo with new values
         todo.setPriority(priority.lastChild.value);
         todo.setDueDate(dueDate.lastChild.value);
         todo.setDescription(description.lastChild.value);
+        todo.setComplete(complete.lastChild.checked);
+        if (todo.getComplete() === true) {
+            event.parentElement.parentElement.parentElement.firstChild.classList.add('complete');
+        } else {
+            event.parentElement.parentElement.parentElement.firstChild.classList.remove('complete');
+        }
         // save to todo
         project.saveToDo(todo);
+
+        // send event to index.js to save projects
+        const saveEvent = new CustomEvent('saveProject', project);
+        eventEmmiter.dispatchEvent(saveEvent);
     }
     
 }
