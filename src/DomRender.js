@@ -35,16 +35,20 @@ function createToDoDetails(todo, project) {
     detailDiv.classList.add('todoDetail');
     let priorityDiv = createToDoPropertyDisplay('Priority', todo.getPriority(), todo.getTitle().replace(/\s/g, ''));
     detailDiv.appendChild(priorityDiv);
-    let dateDiv = createToDoPropertyDisplay('Due Date', todo.getDueDate(), todo.getTitle().replace(/\s/g, ''));
+    let dateDiv = createToDoPropertyDisplay('Due Date', todo.getDueDate(), todo.getTitle().replace(/\s/g, ''), "date");
     detailDiv.appendChild(dateDiv);
     let descriptionDiv = createToDoPropertyDisplay('Description', todo.getDescription(), todo.getTitle().replace(/\s/g, ''));
     detailDiv.appendChild(descriptionDiv);
-    let completeDiv = createToDoPropertyDisplay('Complete', todo.getComplete(), todo.getTitle().replace(/\s/g, ''), true);
+    let completeDiv = createToDoPropertyDisplay('Complete', todo.getComplete(), todo.getTitle().replace(/\s/g, ''), "checkbox");
     detailDiv.appendChild(completeDiv);
     let editButton = document.createElement('button');
     editButton.innerHTML = 'Edit';
     editButton.addEventListener('click', (event) => editButtonOnClick(event.target, project));
     detailDiv.appendChild(editButton);
+    let deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'Delete';
+    deleteButton.addEventListener('click', (event) => deleteButtonOnClick(event.target, project));
+    detailDiv.appendChild(deleteButton);
     return detailDiv;
 }
 
@@ -59,17 +63,21 @@ function displayToDoDetails(todoDiv, detailDiv) {
     return todoDiv;
 }
 
-function createToDoPropertyDisplay(property, value, name, typeCheckbox) {
+function createToDoPropertyDisplay(property, value, name, inputType) {
     let baseDiv = document.createElement('div');
     baseDiv.id = name + property.replace(/\s/g, '');
     baseDiv.classList.add('propertyDisplay');
     let descriptionDiv = document.createElement('div');
     descriptionDiv.innerHTML = property + ':';
     let valueDiv = document.createElement('input');
-    if (typeCheckbox)
+    if (inputType === "checkbox")
     {
         valueDiv.type = "checkbox";
         valueDiv.checked = value;
+    }
+    else if (inputType === "date") {
+        valueDiv.type = "date";
+        valueDiv.value = value;
     } else {
         valueDiv.value = value;
     }
@@ -111,6 +119,12 @@ function editButtonOnClick(event, project) {
         } else {
             event.parentElement.parentElement.parentElement.firstChild.classList.remove('complete');
         }
+        // disable the inputs
+        let children = event.parentElement.children;
+        for (let i = 0; i < children.length - 1; i++ ) {
+            let child = children[i];
+            child.lastChild.disabled = true;
+        }
         // save to todo
         project.saveToDo(todo);
 
@@ -118,7 +132,16 @@ function editButtonOnClick(event, project) {
         const saveEvent = new CustomEvent('saveProject', project);
         eventEmmiter.dispatchEvent(saveEvent);
     }
-    
+}
+
+function deleteButtonOnClick(event, project) {
+    let todoName = event.parentElement.parentElement.firstChild.innerHTML;
+    let todo = project.getToDo(todoName);
+    project.removeToDo(todo);
+    renderProject(project);
+    // send event to index.js to save projects
+    const saveEvent = new CustomEvent('saveProject', project);
+    eventEmmiter.dispatchEvent(saveEvent);
 }
 
 export function renderProjectList(projects) {
