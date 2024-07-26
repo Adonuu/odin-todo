@@ -100,3 +100,22 @@ h2 {
 .complete {
     background-color: darkgreen;
 }
+
+dialog {
+    border-style: none;
+    border-radius: 10px;
+    background-color: darkolivegreen;
+    color: white;
+}
+
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
+
+form > * {
+    border-style: none;
+    padding: 10px;
+    border-radius: 10px;
+}
